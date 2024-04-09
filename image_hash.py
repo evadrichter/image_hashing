@@ -31,7 +31,7 @@ def main():
     if hashing_option == "Simple hash":
             st.write("Performing a simple hash: ")
 
-    elif hashing_option == "Perceptual hash":
+    elif hashing_option == "Difference hash":
             st.write("Performing a difference hash: ")
 
     # Creating two columns for the file uploaders:
@@ -55,8 +55,8 @@ def main():
             st.write("Performing a simple hash: ")
             hash1 = ahash(image1)
             hash2 = ahash(image2)
-        elif hashing_option == "Perceptual hash":
-            st.write("Performing a perceptual hash: ")
+        elif hashing_option == "Difference hash":
+            st.write("Performing a difference hash: ")
             hash1 = dhash(image1)
             hash2 = dhash(image2)
 

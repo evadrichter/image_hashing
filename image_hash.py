@@ -25,19 +25,18 @@ def load_image(image_file):
 
 def main():
 
-    hashing_option = st.sidebar.selectbox("Choose the hashing method:", ["aHash", "dHash"], key="hashing_method_select")
-
     st.title("Image Hashing App")
     st.write("Upload two images to check the how the two hashing algorithms work. Also check with similar images, like screenshots or cropped images. ")
+    hashing_option = st.radio("Choose the hashing method:", ["aHash", "dHash"])
 
     # Creating two columns for the file uploaders:
     col1, col2 = st.columns(2)
 
     with col1:
-        image_file1 = st.file_uploader("Upload first image", type=["png", "jpg", "jpeg"], key="file_uploader1")
+        image_file1 = st.file_uploader("Upload image 1", type=["png", "jpg", "jpeg"], key="file_uploader1")
 
     with col2:
-        image_file2 = st.file_uploader("Upload second image", type=["png", "jpg", "jpeg"], key="file_uploader2")
+        image_file2 = st.file_uploader("Upload image 2", type=["png", "jpg", "jpeg"], key="file_uploader2")
 
     if image_file1 and image_file2 and hashing_option:
         image1 = load_image(image_file1)
@@ -48,9 +47,12 @@ def main():
         st.image(image2, caption="Uploaded Image 2", use_column_width=False, width=250)
 
         if hashing_option == "aHash":
+            st.write("Performing a simple hash: ")
+            st.write("")
             hash1 = ahash(image1)
             hash2 = ahash(image2)
         elif hashing_option == "dHash":
+            st.write("Performing a perceptual hash: ")
             hash1 = dhash(image1)
             hash2 = dhash(image2)
 

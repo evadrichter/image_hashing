@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image, ImageOps
 import numpy as np
+
 import cv2
 
 
@@ -12,6 +13,7 @@ def ahash(image, hash_size=8):
     diff = pixels > avg
     return ''.join(['1' if val else '0' for val in diff.flatten()])
 
+#keep this for later
 # def dhash(image, hash_size=8):
 #     image = ImageOps.grayscale(image)
 #     image = image.resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
@@ -21,6 +23,7 @@ def ahash(image, hash_size=8):
 
 def phash(image, hash_size=8):
 
+#try this for now
     image = ImageOps.grayscale(image)
     image = image.resize((32, 32), Image.Resampling.LANCZOS)
     pixels = np.array(image, dtype=np.float32)

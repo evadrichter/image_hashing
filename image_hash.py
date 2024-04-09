@@ -27,7 +27,12 @@ def main():
 
     st.title("Image Hashing App")
     st.write("Upload two images to check the how the two hashing algorithms work. Also check with similar images, like screenshots or cropped images. ")
-    hashing_option = st.radio("Choose the hashing method:", ["aHash", "dHash"])
+    hashing_option = st.radio("Choose the hashing method:", ["Simple hash", "Perceptual hash"])
+    if hashing_option == "Simple hash":
+            st.write("Performing a simple hash: ")
+
+    elif hashing_option == "Perceptual hash":
+            st.write("Performing a perceptual hash: ")
 
     # Creating two columns for the file uploaders:
     col1, col2 = st.columns(2)
@@ -46,12 +51,11 @@ def main():
         st.image(image1, caption="Uploaded Image 1", use_column_width=False, width=250)
         st.image(image2, caption="Uploaded Image 2", use_column_width=False, width=250)
 
-        if hashing_option == "aHash":
+        if hashing_option == "Simple hash":
             st.write("Performing a simple hash: ")
-            st.write("")
             hash1 = ahash(image1)
             hash2 = ahash(image2)
-        elif hashing_option == "dHash":
+        elif hashing_option == "Perceptual hash":
             st.write("Performing a perceptual hash: ")
             hash1 = dhash(image1)
             hash2 = dhash(image2)

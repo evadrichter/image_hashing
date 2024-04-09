@@ -24,6 +24,7 @@ def phash(image, hash_size=8):
     image = ImageOps.grayscale(image)
     image = image.resize((32, 32), Image.Resampling.LANCZOS)
     pixels = np.array(image, dtype=np.float32)
+    # need opencv
     dct = cv2.dct(pixels)
     dct_low_freq = dct[:hash_size, :hash_size]
     median = np.median(dct_low_freq)

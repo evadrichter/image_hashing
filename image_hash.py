@@ -27,12 +27,12 @@ def main():
 
     st.title("Image Hashing App")
     st.write("Upload two images to check the how the two hashing algorithms compare. Also check with similar images, like screenshots or cropped images. ")
-    hashing_option = st.radio("Choose the hashing method:", ["Simple hash", "Perceptual hash"])
+    hashing_option = st.radio("Choose the hashing method:", ["Simple hash", "Difference hash"])
     if hashing_option == "Simple hash":
             st.write("Performing a simple hash: ")
 
     elif hashing_option == "Perceptual hash":
-            st.write("Performing a perceptual hash: ")
+            st.write("Performing a difference hash: ")
 
     # Creating two columns for the file uploaders:
     col1, col2 = st.columns(2)

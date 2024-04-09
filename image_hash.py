@@ -26,7 +26,7 @@ def load_image(image_file):
 def main():
 
     st.title("Image Hashing App")
-    st.write("Upload two images to check the how the two hashing algorithms work. Also check with similar images, like screenshots or cropped images. ")
+    st.write("Upload two images to check the how the two hashing algorithms compare. Also check with similar images, like screenshots or cropped images. ")
     hashing_option = st.radio("Choose the hashing method:", ["Simple hash", "Perceptual hash"])
     if hashing_option == "Simple hash":
             st.write("Performing a simple hash: ")

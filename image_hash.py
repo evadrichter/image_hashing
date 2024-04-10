@@ -1,7 +1,6 @@
 import streamlit as st
 from PIL import Image, ImageOps
 import numpy as np
-!pip install imagehash
 import imagehash
 import cv2
 

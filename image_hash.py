@@ -1,28 +1,29 @@
 import streamlit as st
 from PIL import Image, ImageOps
 import numpy as np
-
+import imagehash
 import cv2
 
 
 def ahash(image, hash_size=8):
-    image = ImageOps.grayscale(image)
+    #convert image into grayscale for easier computation
+    image = ImageOps.grayscale(image) 
+    #resize image down to 9x8 aspect ratio: 
     image = image.resize((hash_size, hash_size), Image.Resampling.LANCZOS)
     pixels = np.array(image)
     avg = pixels.mean()
     diff = pixels > avg
     return ''.join(['1' if val else '0' for val in diff.flatten()])
 
-#keep this for later
-# def dhash(image, hash_size=8):
-#     image = ImageOps.grayscale(image)
-#     image = image.resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
-#     pixels = np.array(image)
-#     diff = pixels[:, 1:] > pixels[:, :-1]
-#     return ''.join(['1' if val else '0' for val in diff.flatten()])
+def dhash(image, hash_size=8):
+    image = ImageOps.grayscale(image)
+    image = image.resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
+    pixels = np.array(image)
+    diff = pixels[:, 1:] > pixels[:, :-1]
+    return ''.join(['1' if val else '0' for val in diff.flatten()])
+
 
 def phash(image, hash_size=8):
-
 #try this for now
     image = ImageOps.grayscale(image)
     image = image.resize((32, 32), Image.Resampling.LANCZOS)
@@ -44,7 +45,7 @@ def main():
 
     st.title("Image Hashing App")
     st.write("Upload two images to check the how the two hashing algorithms compare. Also check with similar images, like screenshots or cropped images. ")
-    hashing_option = st.radio("Choose the hashing method:", ["Simple hash", "Perceptual hash"])
+    hashing_option = st.radio("Choose the hashing method:", ["Simple hash", "Perceptual hash", "Difference hash"])
     if hashing_option == "Simple hash":
             st.write("Performing a simple hash: ")
 
@@ -53,6 +54,7 @@ def main():
 
     # Creating two columns for the file uploaders:
     col1, col2 = st.columns(2)
+    col3, col4 = st.columns(2)
 
     with col1:
         image_file1 = st.file_uploader("Upload image 1", type=["png", "jpg", "jpeg"], key="file_uploader1")
@@ -63,10 +65,12 @@ def main():
     if image_file1 and image_file2 and hashing_option:
         image1 = load_image(image_file1)
         image2 = load_image(image_file2)
+        with col3:
 
-
-        st.image(image1, caption="Uploaded Image 1", use_column_width=False, width=250)
-        st.image(image2, caption="Uploaded Image 2", use_column_width=False, width=250)
+            st.image(image1, caption="Uploaded Image 1", use_column_width=False, width=250)
+        
+        with col4:
+            st.image(image2, caption="Uploaded Image 2", use_column_width=False, width=250)
 
         if hashing_option == "Simple hash":
             st.write("Performing a simple hash: ")
@@ -76,6 +80,11 @@ def main():
             st.write("Performing a perceptual hash: ")
             hash1 = phash(image1)
             hash2 = phash(image2)
+        elif hashing_option == "Difference hash":
+            st.write("Performing a difference hash: ")
+            hash1 = dhash(image1)
+            hash2 = dhash(image2)
+
 
         distance = hamming_distance(hash1, hash2)
         similarity = "similar" if distance <= 5 else "not similar"

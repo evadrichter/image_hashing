@@ -5,6 +5,7 @@ import imagehash
 import cv2
 
 
+
 def ahash(image, hash_size=8):
     #convert image into grayscale for easier computation
     image = ImageOps.grayscale(image) 
@@ -42,15 +43,24 @@ def load_image(image_file):
     return Image.open(image_file)
 
 def main():
-
+    
+    with open( "app/style.css" ) as css:
+        st.markdown( f'<style>{css.read()}</style>' , unsafe_allow_html= True)
     st.title("Image Hashing App")
     st.write("Upload two images to check the how the two hashing algorithms compare. Also check with similar images, like screenshots or cropped images. ")
     hashing_option = st.radio("Choose the hashing method:", ["Simple hash", "Perceptual hash", "Difference hash"])
     if hashing_option == "Simple hash":
             st.write("Performing a simple hash: ")
+            st.write("The average hash (ahash), or a simple hash simplifies an image by resizing it to a small, uniform size, converting it to grayscale, and then computing the average pixel value. Each pixel's value is then compared to this average, assigning a 1 if it's above the average or 0 if below, forming a binary hash.")
+            st.write("This is a fast method and is good at identifying images with minor differences. ")
 
     elif hashing_option == "Perceptual hash":
             st.write("Performing a perceptual hash: ")
+            st.write("Perceptual Hash (phash) also starts by resizing and converting the image to grayscale but then applies a Discrete Cosine Transform (DCT) to focus on the image's frequency patterns. Only the most significant components of the DCT (representing the image's 'essence') are kept to construct the hash. This makes pHash more sensitive to image content rather than details and is better at identifying images that are perceptually similar rather than pixel-by-pixel identical.")
+
+    elif hashing_option == "Difference hash":
+            st.write("Performing a difference hash: ")
+            st.write("Difference Hash (dhash) creates a hash reflecting the image's texture and gradient patterns. This method is particularly effective for detecting images with similar content despite variations in brightness or contrast. The Transform (DCT) is used to focus on the image's frequency patterns. Only the most significant components of the DCT (representing the image's 'essence') are kept to construct the hash. ")
 
     # Creating two columns for the file uploaders:
     col1, col2 = st.columns(2)
